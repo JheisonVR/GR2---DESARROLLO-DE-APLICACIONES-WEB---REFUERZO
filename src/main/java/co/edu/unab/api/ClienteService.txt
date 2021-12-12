@@ -1,0 +1,48 @@
+package co.edu.unab.api;
+
+import java.util.ArrayList;
+// import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import co.edu.unab.api.models.ClienteModel;
+import co.edu.unab.api.repositories.ClienteRepository;
+
+public class ClienteService {
+    @Autowired
+    ClienteRepository clienteRepository;
+
+    public ArrayList<ClienteModel> obtenerClientes(){
+        return(ArrayList<ClienteModel>) clienteRepository.findAll());
+
+    }
+    
+    public ClienteModel guardarCliente(ClienteModel cliente){
+        cliente.setNombre(cliente.getNombre().toLowerCase());
+        return clienteRepository.save(cliente);
+    }
+
+    public boolean eliminarCLiente(String id){
+
+        if(clienteRepository.existsById(id)){
+            clienteRepository.deleteById(id);;
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // public Optional<ClienteModel> obtenerClientePorId(String id){
+    //     return clienteRepository.findById(id);
+    // }
+    
+    public ArrayList<ClienteModel> obtenerPorNombre(String nombre){
+        return clienteRepository.findByNombre(nombre);
+    }
+
+    public ArrayList<ClienteModel> obtenerClientesPorCiudad(String ciudad){
+        return clienteRepository.clientePorCiudad(ciudad);
+    }
+
+}
